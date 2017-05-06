@@ -14,4 +14,8 @@ use Illuminate\Database\Eloquent\Model;
 class Manga extends Model
 {
 
+    protected $fillable = [
+        'title', 'publishedAt', 'volume', 'price', 'isbn'
+    ];
+
 }

@@ -22,4 +22,7 @@ $app->group(['prefix' => 'api/v1'], function() use($app){
 
     $app->get('users[/{id:\d+}]', 'UserController@show');
     $app->post('users', 'UserController@create');
+
+
+    $app->get('mangas', 'UserController@testManga');
 });

@@ -40,4 +40,12 @@ class UserController extends Controller
 
         return response()->json($this->user);
     }
+
+    public function testManga(Request $request){
+
+        $user = User::with('mangas')->find(1);
+        //$user->mangas()->attach(1);
+
+        return response()->json($user);
+    }
 }

@@ -34,4 +34,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         return $this->hasOne('App\Models\Profile');
     }
+
+    public function mangas()
+    {
+        return $this->belongsToMany('App\Models\Manga', 'manga_user');
+    }
 }
