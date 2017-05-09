@@ -18,6 +18,7 @@ class CreateSeriesTable extends Migration
            $table->string('name');
            $table->string('author');
            $table->string('editorial');
+           $table->string('cover')->nullable();
            $table->timestamps();
         });
     }
