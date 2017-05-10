@@ -10,17 +10,30 @@ class SerieController extends Controller
 {
     private $serie;
 
-    public function show($id = null){
-
-        if($id){
-            $this->serie = Serie::find($id);
+    public function show(Request $request, $id = null){
+        if($request->query('mangas') !== null){
+            if($id){
+                $this->serie = Serie::with('mangas')->find($id);
+            } else {
+                $this->serie = Serie::with('mangas')->get();
+            }
         } else {
-            $this->serie = Serie::all();
+            if($id){
+                $this->serie = Serie::find($id);
+            } else {
+                $this->serie = Serie::all();
+            }
         }
-
         return response()->json($this->serie);
     }
 
+    public function showWithMangas($id = null){
+        if($id){
+            $this->serie = Serie::with('mangas')->find($id);
+        } else {
+            $this->serie = Serie::with('mangas')->get();
+        }
+    }
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse

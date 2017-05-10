@@ -15,7 +15,11 @@ class Manga extends Model
 {
 
     protected $fillable = [
-        'title', 'publishedAt', 'volume', 'price', 'isbn'
+        'title', 'publishedAt', 'volume', 'price', 'isbn', 'serie_id'
     ];
 
+    public function series()
+    {
+        return $this->belongsTo('App\Models\Serie');
+    }
 }
