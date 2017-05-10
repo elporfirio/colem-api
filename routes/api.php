@@ -20,9 +20,26 @@ $app->group(['prefix' => 'api/v1'], function() use($app){
         return "Hola API";
     });
 
+    /** Usuarios */
     $app->get('users[/{id:\d+}]', 'UserController@show');
     $app->post('users', 'UserController@create');
+    $app->put('users/{id:\d+}', 'UserController@update');
+    $app->delete('users/{id:\d+}', 'UserController@delete');
 
+    /** Series */
+    $app->post('series', 'SerieController@create');
+    $app->get('series[/{id:\d+}]', 'SerieController@show');
+    $app->put('series/{id:\d+}', 'SerieController@update');
+    $app->delete('series/{id:\d+}', 'SerieController@delete');
 
-    $app->get('mangas', 'UserController@testManga');
+    /** Catalogo Mangas */
+    $app->post('mangas', 'MangaController@create');
+    $app->get('mangas[/{id:\d+}]', 'MangaController@show');
+    $app->put('mangas/{id:\d+}', 'MangaController@update');
+    $app->delete('mangas/{id:\d+}', 'MangaController@delete');
+
+    /** Coleccion */
+    $app->post('users/{id:\d+}/collection', 'CollectionController@add');
+    $app->get('users/{userId:\d+}/collection[/{serieId:\d+}]','CollectionController@show');
+
 });

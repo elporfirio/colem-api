@@ -11,22 +11,43 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 
-
+/**
+ * Class UserController
+ * @package App\Http\Controllers
+ */
 class UserController extends Controller
 {
+    /**
+     * @var
+     */
     private $user;
 
-    public function show($id = null){
-
-        if($id){
-            $this->user = User::find($id);
+    /**
+     * @param null $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(Request $request, $id = null){
+        if($request->query('mangas') !== null) {
+            if($id){
+                $this->user = User::with('mangas')->find($id);
+            } else {
+                $this->user = User::with('mangas')->get();
+            }
         } else {
-            $this->user = User::all();
+            if($id){
+                $this->user = User::find($id);
+            } else {
+                $this->user = User::all();
+            }
         }
 
         return response()->json($this->user);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function create(Request $request){
         $this->validate($request, [
             'username' => 'required|unique:users|max:255',
@@ -41,11 +62,48 @@ class UserController extends Controller
         return response()->json($this->user);
     }
 
-    public function testManga(Request $request){
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request, $id){
+        $this->validate($request, [
+            'username' => 'required|max:255|unique:users,username,' . $id,
+            'email' => 'required|unique:users,email,' . $id,
+        ]);
 
-        $user = User::with('mangas')->find(1);
+        $this->user = User::find($id);
+        $this->user->username = $request->input('username');
+        $this->user->email = $request->input('email');
+        $this->user->save();
+
+        return response()->json($this->user);
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function delete(Request $request, $id){
+        $this->user = User::find($id);
+        $this->user->delete();
+
+        return response()->json($this->user);
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function testManga(Request $request, $id){
+
+        $this->user = User::with('mangas')->find($id);
+
         //$user->mangas()->attach(1);
 
-        return response()->json($user);
+        return response()->json($this->user);
     }
 }
