@@ -26,12 +26,19 @@ class UserController extends Controller
      * @param null $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id = null){
-
-        if($id){
-            $this->user = User::find($id);
+    public function show(Request $request, $id = null){
+        if($request->query('mangas') !== null) {
+            if($id){
+                $this->user = User::with('mangas')->find($id);
+            } else {
+                $this->user = User::with('mangas')->get();
+            }
         } else {
-            $this->user = User::all();
+            if($id){
+                $this->user = User::find($id);
+            } else {
+                $this->user = User::all();
+            }
         }
 
         return response()->json($this->user);

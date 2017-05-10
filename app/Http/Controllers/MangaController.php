@@ -10,7 +10,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Manga;
-use App\Models\Serie;
 
 class MangaController extends Controller
 {

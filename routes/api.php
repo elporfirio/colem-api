@@ -33,8 +33,13 @@ $app->group(['prefix' => 'api/v1'], function() use($app){
     $app->delete('series/{id:\d+}', 'SerieController@delete');
 
     /** Catalogo Mangas */
-    $app->post('mangas', 'Mangacontroller@create');
-    $app->get('mangas[/{id:\d+}]', 'Mangacontroller@show');
-    $app->put('mangas/{id:\d+}', 'Mangacontroller@update');
-    $app->delete('mangas/{id:\d+}', 'Mangacontroller@delete');
+    $app->post('mangas', 'MangaController@create');
+    $app->get('mangas[/{id:\d+}]', 'MangaController@show');
+    $app->put('mangas/{id:\d+}', 'MangaController@update');
+    $app->delete('mangas/{id:\d+}', 'MangaController@delete');
+
+    /** Coleccion */
+    $app->post('users/{id:\d+}/collection', 'CollectionController@add');
+    $app->get('users/{userId:\d+}/collection[/{serieId:\d+}]','CollectionController@show');
+
 });
