@@ -33,8 +33,6 @@ class CollectionController extends Controller
             })->with('mangas')->get();
         }
 
-
         return response()->json($this->user);
     }
-
 }
