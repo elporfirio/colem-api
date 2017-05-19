@@ -22,6 +22,7 @@ class CreateMangasTable extends Migration
            $table->string('isbn');
            $table->integer('serie_id')->unsigned();
            $table->foreign('serie_id')->references('id')->on('series');
+           $table->string('cover')->nullable();
            $table->timestamps();
         });
     }

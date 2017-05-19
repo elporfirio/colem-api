@@ -15,8 +15,8 @@ $app->get('/', function () use ($app) {
     return $app->version();
 });
 
-$app->group(['prefix' => 'api/v1'], function() use($app){
-    $app->get('/', function(){
+$app->group(['prefix' => 'api/v1'], function() use($app) {
+    $app->get('/', function () {
         return "Hola API";
     });
 
@@ -40,6 +40,13 @@ $app->group(['prefix' => 'api/v1'], function() use($app){
 
     /** Coleccion */
     $app->post('users/{id:\d+}/collection', 'CollectionController@add');
-    $app->get('users/{userId:\d+}/collection[/{serieId:\d+}]','CollectionController@show');
+    $app->get('users/{userId:\d+}/collection[/{serieId:\d+}]', 'CollectionController@show');
 
+    /** Imagenes */
+    $app->get('images/covers/{image}', function($image = null){
+        $path = storage_path().'/app/covers/';
+        if(file_exists($path . $image)){
+            return response()->download($path . $image);
+        }
+    });
 });

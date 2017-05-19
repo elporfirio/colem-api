@@ -39,7 +39,14 @@ class SerieController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function create(Request $request){
-        //TODO: Add Cover Image
+        if ($request->hasFile('imageFile')) {
+            $file = $request->file('imageFile');
+            $inputFileName =  str_limit(str_random(10).$file->getClientOriginalName(), 200);
+            $inputFileName = str_slug($inputFileName, '-').'.'.$file->getClientOriginalExtension();
+            $destination = storage_path() . '/app/covers';
+            $file->move($destination, $inputFileName);
+            $request->merge(['cover' => $inputFileName]);
+        }
         $this->validate($request, [
             'name' => 'required|max:255',
             'author' => 'required|max:255',

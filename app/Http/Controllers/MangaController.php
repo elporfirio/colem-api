@@ -18,9 +18,9 @@ class MangaController extends Controller
     public function show($id = null){
 
         if($id){
-            $this->manga = Manga::find($id);
+            $this->manga = Manga::with('series')->find($id);
         } else {
-            $this->manga = Manga::all();
+            $this->manga = Manga::with('series')->get();
         }
 
         return response()->json($this->manga);
@@ -31,7 +31,16 @@ class MangaController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function create(Request $request){
-        //TODO: Add Cover Image
+        /** Cover Image */
+        if ($request->hasFile('imageFile')) {
+            $file = $request->file('imageFile');
+            $inputFileName =  str_limit(str_random(10).$file->getClientOriginalName(), 200);
+            $inputFileName = str_slug($inputFileName, '-').'.'.$file->getClientOriginalExtension();
+            $destination = storage_path() . '/app/covers';
+            $file->move($destination, $inputFileName);
+            $request->merge(['cover' => $inputFileName]);
+        }
+        /** -- */
         $this->validate($request, [
             'title' => 'required|max:255',
             'publishedAt' => 'required',
